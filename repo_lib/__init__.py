@@ -111,8 +111,10 @@ class Repository:
 
         if gpgkey:
             try:
-                subprocess.run(["gpg", "-abs", "-u", f"{gpgkey}",
-                                "-o", f"{release_gpg}", release],
+                subprocess.run(["gpg", "--armor", "--detach-sign",
+                                "--local-user", gpgkey,
+                                "--output", release_gpg,
+                                release],
                                check=True)
             except subprocess.CalledProcessError as e:
                 raise RepoError(e) from e
