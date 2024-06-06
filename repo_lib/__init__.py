@@ -10,6 +10,7 @@
 import subprocess
 import os
 from os.path import exists, join, isdir
+import sys
 from typing import Set, Optional
 
 
@@ -35,8 +36,7 @@ class Repository:
         com = ['apt-ftparchive', command, input]
         if arch:
             com.insert(1, f'--arch={arch}')
-        output = subprocess.run(['apt-ftparchive', command, input],
-                                text=True, capture_output=True)
+        output = subprocess.run(com, text=True, capture_output=True)
         os.chdir(cwd)
         return output.stdout
 
@@ -114,5 +114,8 @@ class Repository:
                 subprocess.run(["gpg", "-abs", "-u", f"{gpgkey}",
                                 "-o", f"{release_gpg}", release],
                                check=True)
-            except CalledProcessError as e:
+            except subprocess.CalledProcessError as e:
                 raise RepoError(e) from e
+        else:
+            print("Warning gpgkey not passed to Repository class",
+                  file=sys.stderr)

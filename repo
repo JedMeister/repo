@@ -43,14 +43,16 @@ def main():
     subparsers = main_parser.add_subparsers(dest='command')
 
     # repo-index
-    parser_index = subparsers.add_parser(
-            "index", help="Index repository component", parents=[parent_parser])
+    parser_index = subparsers.add_parser("index",
+                                         help="Index repository component",
+                                         parents=[parent_parser])
     parser_index.add_argument("component", help="Release component to index")
     parser_index.add_argument("arch", help="Architecture (e.g., i386, amd64)")
-    
+
     # repo-release
-    parser_release = subparsers.add_parser(
-            "release", help="Generate repository release", parents=[parent_parser])
+    parser_release = subparsers.add_parser("release",
+                                           help="Generate repository release",
+                                           parents=[parent_parser])
     parser_release.add_argument("--gpgkey",
                                 help="GPG Key to use when signing the release")
 
@@ -73,4 +75,4 @@ def main():
 
 
 if __name__ == "__main__":
-     main()
+    main()
